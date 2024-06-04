@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Text, View } from "react-native";
+import React from "react";
+import { Button, Text, View, StyleSheet } from "react-native";
 
 export default function Index() {
+  const [repitisjons, setRepitisjons] = useState(0);
   const [number, setNumber] = useState(0);
   const direction = useRef(1);
   const [isCounting, setIsCounting] = useState(false);
@@ -12,6 +14,8 @@ export default function Index() {
   };
   const stop = () => {
     setIsCounting(false);
+    setRepitisjons(0);
+    setNumber(0);
   };
 
   useEffect(() => {
@@ -25,9 +29,8 @@ export default function Index() {
       }, 1000);
     } else if (intervalRefId.current !== null) {
       clearInterval(intervalRefId.current);
-      intervalRefId.current = null; // Reset intervalRef to null after clearing
+      intervalRefId.current = null;
     }
-    // Cleanup interval on component unmount
     return () => {
       if (intervalRefId.current !== null) {
         clearInterval(intervalRefId.current);
@@ -35,17 +38,45 @@ export default function Index() {
     };
   }, [isCounting]);
 
+  useEffect(() => {
+    if (number === 5) {
+      setRepitisjons(repitisjons + 1);
+    }
+  }, [number]);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Button title="Start" onPress={start} />
-      <Button title="Stop" onPress={stop} />
-      <Text>{number}</Text>
+    <View style={styles.timerContainer}>
+      <View>
+        <Text style={styles.number}>{number}</Text>
+        <Text>{repitisjons}</Text>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <View style={styles.buttonWrapper}>
+          <Button title="Start" onPress={start} />
+        </View>
+        <View style={styles.buttonWrapper}>
+          <Button title="Stop" onPress={stop} />
+        </View>
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  timerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    marginTop: 20,
+  },
+  buttonWrapper: {
+    marginHorizontal: 5, // Adjust the value to set the desired gap
+  },
+  number: {
+    fontSize: 50,
+  },
+});
