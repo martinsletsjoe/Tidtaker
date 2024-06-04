@@ -10,7 +10,7 @@ It's a stopwatch that counts up and down by itself while counting repitisjons.
 Time goes by differently while under pressure, so when training you tend to count faster,
 so i created an app to help me circumvent this problem while doing exercises in the gym.
 
-It only works in development mode at the moment and not when downloaded, i will create a link after i fix the crashing.
+It only works in development at the moment and not when downloaded, i will create a link after i fix the crashing.
 
 ## Tech
 * React-Native
